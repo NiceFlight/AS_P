@@ -1,0 +1,25 @@
+div.nav {
+    font-size: 20px;
+    color: #fff;
+}
+
+div.nav a:link {
+    color: #fff;
+}
+
+div.nav a:visited {
+    color: #fff;
+
+}
+
+select#selectedCity {
+    width: 130px;
+    margin: auto;
+    font-size: 20px;
+}
+
+select#selectedTown {
+    width: 160px;
+    margin: auto;
+    font-size: 20px;
+}

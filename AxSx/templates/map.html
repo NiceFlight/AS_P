@@ -1,0 +1,77 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block A %}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="{% static 'css/map.css' %}" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <title>{{ name }}</title>
+{% endblock %}
+
+{% block B %}
+  <section>
+    <div class="select">
+      <select id="selectedCity">
+        <option value="">請選擇縣市</option>
+      </select>
+      <select id="selectedTown" disabled>
+        <option value="">請選擇鄉鎮</option>
+      </select>
+    </div>
+  </section>
+  <br />
+  <div id="map"></div>
+  <h1>名稱列表</h1>
+  <ul id="location-list"></ul>
+  <script src="{% static 'js/map.js' %}"></script>
+  <script>
+    document.getElementById('selectedTown').addEventListener('change', function () {
+      var filterTown = townSelect.value.split('(')[1].substring(0, 3)
+      console.log(townSelect.value.slice(-4, -1))
+      // 異步請求，將選擇的資料送到後端伺服器查詢
+      fetch('view_AxSx/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': '{{ csrf_token }}'
+        },
+        body: JSON.stringify({ filterTown: filterTown })
+      })
+        .then((response) => response.json()) // 後端伺服器回傳查詢結果並 Json 格式化
+        .then((data) => {
+          // console.log(data)
+          // 在地圖上標記
+          if (data.status === 'success') {
+            var coordinates = data.coordinates
+            // 清除標記
+            map.eachLayer(function (layer) {
+              if (layer instanceof L.Marker) {
+                map.removeLayer(layer)
+              }
+            })
+            coordinates.forEach(function (coord) {
+              var marker = L.marker([coord.lat, coord.lng]).addTo(map).bindPopup(`<h3>${coord.name}</h3>`)
+              marker.on('mouseover', function (e) {
+                this.openPopup()
+              })
+              marker.on('mouseout', function (e) {
+                this.closePopup()
+              })
+              // 列出標記
+              const locationList = document.getElementById('location-list')
+              locationList.innerHTML = ''
+              data.coordinates.forEach((location) => {
+                const listItem = document.createElement('li')
+                listItem.textContent = `${location.name}`
+                locationList.appendChild(listItem)
+              })
+            })
+          } else {
+            console.error('error:', data.error)
+          }
+        })
+        .catch((error) => console.error('Error:', error))
+    })
+  </script>
+{% endblock %}

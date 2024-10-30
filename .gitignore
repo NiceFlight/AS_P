@@ -1,0 +1,24 @@
+# Python相關
+*.pyc
+__pycache__/
+
+# Django相關
+db.sqlite3
+/media/
+
+# 環境配置
+.env
+*.log
+
+# Node.js相關
+node_modules/
+
+# 操作系統相關
+.DS_Store  # macOS
+Thumbs.db  # Windows
+
+# 特定檔案
+settings.py
+django 指令.txt
+AxSx/Map_app/views.py
+staticfiles/
