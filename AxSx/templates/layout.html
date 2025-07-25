@@ -1,0 +1,11 @@
+{% load static %}
+{% block A %}
+
+{% endblock %}
+<div class="nav">
+  <a href="{% url '' %}">首頁</a> ｜ <a href="{% url 'adddata' %}">新增資料</a> ｜ <a href="{% url 'hubmap' %}">Hub map</a> ｜ <a href="{% url 'shipwreck' %}">Ship wreck</a> ｜ <a href="/addsites/">Add Sites</a> ｜ <a href="/addsitesalert/">Add Sites Alert</a> ｜ <a href="/circuits/">Circuits</a>｜<a href="{% url 'sias' %}">Si Map</a>
+</div>
+<link rel="stylesheet" href="{% static 'css/layout.css' %}" />
+{% block B %}
+
+{% endblock %}
