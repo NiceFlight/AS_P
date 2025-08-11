@@ -1,4 +1,4 @@
-{% extends 'layout.html' %}
+{% extends "layout.html" %}
 {% load static %}
 {% block A %}
   <meta charset="UTF-8" />
@@ -7,8 +7,7 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <title>{{ name }}</title>
-{% endblock %}
-
+{% endblock A %}
 {% block B %}
   <br />
   <section>
@@ -24,16 +23,17 @@
   <br />
   <div id="map"></div>
   <h2>名稱列表</h2>
-  <ul id="location-list"></ul>
+  <ul id="location-list">
+  </ul>
   <footer>
     <div>Counts: {{ visitCount }}</div>
   </footer>
   <script src="{% static 'js/map.js' %}"></script>
   <script>
-    // 將 CSRF token 注入成全域變數，Django Template 所注入的內容，{{ csrf_token }} 是後端產生的 token 字串
-    window.csrfToken = '{{ csrf_token }}'
-    
-    /* var geojsonLayer = null
+  // 將 CSRF token 注入成全域變數，Django Template 所注入的內容，{{ csrf_token }} 是後端產生的 token 字串
+  window.csrfToken = "{{ csrf_token }}";
+
+  /* var geojsonLayer = null
                         document.getElementById('selectedTown').addEventListener('change', function () {
                           var filterTown = townSelect.value.split('(')[1].substring(0, 3)
                           // console.log(townSelect.value.slice(-4, -1))
@@ -103,4 +103,4 @@
                             .catch((error) => console.error('Error:', error))
                         })*/
   </script>
-{% endblock %}
+{% endblock B %}
