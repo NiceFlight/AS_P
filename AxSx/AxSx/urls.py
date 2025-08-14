@@ -25,6 +25,7 @@ import Addsites_app.views
 import Addsitesalert_app.views
 import Circuits_app.views
 import SiAs_app.views
+import Geolocation_app.views
 from django.views.generic import RedirectView
 
 app_name = "axsx"
@@ -48,4 +49,5 @@ urlpatterns = [
     path("circuits/", Circuits_app.views.circuits, name="circuits"),
     path("sias/", SiAs_app.views.sias, name="sias"),
     path("api/sias_json/", SiAs_app.views.view_sias, name="view_sias"),
+    path("geolocation/", Geolocation_app.views.geolocation, name="geolocation"),
 ]
