@@ -34,7 +34,7 @@
   <script>
   // 將 CSRF token 注入成全域變數，Django Template 所注入的內容，{{ csrf_token }} 是後端產生的 token 字串
   window.csrfToken = "{{ csrf_token }}";
-
+  console.log(window.csrfToken)
   /* var geojsonLayer = null
                         document.getElementById('selectedTown').addEventListener('change', function () {
                           var filterTown = townSelect.value.split('(')[1].substring(0, 3)
