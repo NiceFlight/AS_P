@@ -1,6 +1,8 @@
 import { map } from "./map.js";
 
 let geojsonLayer = null;
+const townSelect = document.getElementById("selectedTown");
+
 document.getElementById("selectedTown").addEventListener("change", function () {
   var filterTown = townSelect.value.split("(")[1].substring(0, 3);
   // console.log(townSelect.value.slice(-4, -1))
