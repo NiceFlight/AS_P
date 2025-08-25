@@ -1,3 +1,5 @@
+import { map } from "./map.js";
+
 // 顯示座標
 /* global proj4 */
 // 定義座標轉換參數
