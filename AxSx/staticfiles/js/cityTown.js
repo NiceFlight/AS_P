@@ -2,12 +2,6 @@
 const citySelect = document.getElementById("selectedCity");
 const townSelect = document.getElementById("selectedTown");
 
-// TEST
-// fetch("citytown/").then((response) => response.json()).then((data) => {
-//   aaa = data
-//   console.log(aaa)
-// });
-
 // 假設有一個 JSON 資料結構，包含縣市與鄉鎮的對應關係
 fetch("/static/js/city_town_ID.json")
   .then((response) => response.json())
