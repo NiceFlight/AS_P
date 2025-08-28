@@ -19,13 +19,13 @@ from django.contrib import admin
 from django.urls import path, include
 import Hub_app.views
 import Shipwreck_app.views
-import Map_app.views
 import Adddata_app.views
 import Addsites_app.views
 import Addsitesalert_app.views
 import Circuits_app.views
 import SiAs_app.views
 import Geolocation_app.views
+import Axsx_app.views
 from django.views.generic import RedirectView
 
 app_name = "axsx"
@@ -33,9 +33,9 @@ app_name = "axsx"
 urlpatterns = [
     path("favicon.ico", RedirectView.as_view(url="/static/img/favicon.ico")),  # 設定標籤小圖示
     path("admin/", admin.site.urls, name="admin"),
-    path("", Map_app.views.map, name=""),
+    path("", Axsx_app.views.map, name=""),
     # path("view_AxSx/", Map_app.views.view_AxSx, name="view_AxSx"),
-    path("", include("Map_app.urls")),
+    path("", include("Axsx_app.urls")),
     path("adddata/", Adddata_app.views.adddata, name="adddata"),
     path("adddata/added/", Adddata_app.views.adddata, name="added"),
     path("addsites/", Addsites_app.views.addsites, name="addsites"),

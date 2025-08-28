@@ -76,9 +76,7 @@ class DjangoAdminLog(models.Model):
     object_repr = models.CharField(max_length=200)
     action_flag = models.PositiveSmallIntegerField()
     change_message = models.TextField()
-    content_type = models.ForeignKey(
-        "DjangoContentType", models.DO_NOTHING, blank=True, null=True
-    )
+    content_type = models.ForeignKey("DjangoContentType", models.DO_NOTHING, blank=True, null=True)
     user = models.ForeignKey(AuthUser, models.DO_NOTHING)
 
     class Meta:
@@ -118,63 +116,25 @@ class DjangoSession(models.Model):
 
 
 class TaiwanArchaeologySites(models.Model):
-    id = models.CharField(
-        db_column="ID", primary_key=True, max_length=10
-    )  # Field name made lowercase.
-    name = models.CharField(
-        db_column="Name", max_length=30, blank=True, null=True
-    )  # Field name made lowercase.
-    id_name = models.CharField(
-        db_column="ID_name", max_length=30, blank=True, null=True
-    )  # Field name made lowercase.
-    culture_type = models.TextField(
-        db_column="Culture_type", blank=True, null=True
-    )  # Field name made lowercase.
-    rating = models.CharField(
-        db_column="Rating", max_length=20, blank=True, null=True
-    )  # Field name made lowercase.
-    lat = models.FloatField(
-        db_column="Lat", blank=True, null=True
-    )  # Field name made lowercase.
-    lng = models.FloatField(
-        db_column="Lng", blank=True, null=True
-    )  # Field name made lowercase.
-    twd97_x = models.FloatField(
-        db_column="TWD97_X", blank=True, null=True
-    )  # Field name made lowercase.
-    twd97_y = models.FloatField(
-        db_column="TWD97_Y", blank=True, null=True
-    )  # Field name made lowercase.
-    county_name = models.CharField(
-        db_column="County_name", max_length=5, blank=True, null=True
-    )  # Field name made lowercase.
-    town_name = models.CharField(
-        db_column="Town_name", max_length=5, blank=True, null=True
-    )  # Field name made lowercase.
-    des = models.TextField(
-        db_column="Des", blank=True, null=True
-    )  # Field name made lowercase.
-    source = models.TextField(
-        db_column="Source", blank=True, null=True
-    )  # Field name made lowercase.
-    note = models.TextField(
-        db_column="Note", blank=True, null=True
-    )  # Field name made lowercase.
-    town_eng = models.CharField(
-        db_column="Town_eng", max_length=45, blank=True, null=True
-    )  # Field name made lowercase.
-    county_id = models.CharField(
-        db_column="County_ID", max_length=3, blank=True, null=True
-    )  # Field name made lowercase.
-    county_code = models.IntegerField(
-        db_column="County_code", blank=True, null=True
-    )  # Field name made lowercase.
-    town_id = models.CharField(
-        db_column="Town_ID", max_length=5, blank=True, null=True
-    )  # Field name made lowercase.
-    town_code = models.IntegerField(
-        db_column="Town_code", blank=True, null=True
-    )  # Field name made lowercase.
+    id = models.CharField(db_column="ID", primary_key=True, max_length=10)  # Field name made lowercase.
+    name = models.CharField(db_column="Name", max_length=30, blank=True, null=True)  # Field name made lowercase.
+    id_name = models.CharField(db_column="ID_name", max_length=30, blank=True, null=True)  # Field name made lowercase.
+    culture_type = models.TextField(db_column="Culture_type", blank=True, null=True)  # Field name made lowercase.
+    rating = models.CharField(db_column="Rating", max_length=20, blank=True, null=True)  # Field name made lowercase.
+    lat = models.FloatField(db_column="Lat", blank=True, null=True)  # Field name made lowercase.
+    lng = models.FloatField(db_column="Lng", blank=True, null=True)  # Field name made lowercase.
+    twd97_x = models.FloatField(db_column="TWD97_X", blank=True, null=True)  # Field name made lowercase.
+    twd97_y = models.FloatField(db_column="TWD97_Y", blank=True, null=True)  # Field name made lowercase.
+    county_name = models.CharField(db_column="County_name", max_length=5, blank=True, null=True)  # Field name made lowercase.
+    town_name = models.CharField(db_column="Town_name", max_length=5, blank=True, null=True)  # Field name made lowercase.
+    des = models.TextField(db_column="Des", blank=True, null=True)  # Field name made lowercase.
+    source = models.TextField(db_column="Source", blank=True, null=True)  # Field name made lowercase.
+    note = models.TextField(db_column="Note", blank=True, null=True)  # Field name made lowercase.
+    town_eng = models.CharField(db_column="Town_eng", max_length=45, blank=True, null=True)  # Field name made lowercase.
+    county_id = models.CharField(db_column="County_ID", max_length=3, blank=True, null=True)  # Field name made lowercase.
+    county_code = models.IntegerField(db_column="County_code", blank=True, null=True)  # Field name made lowercase.
+    town_id = models.CharField(db_column="Town_ID", max_length=5, blank=True, null=True)  # Field name made lowercase.
+    town_code = models.IntegerField(db_column="Town_code", blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
         managed = False
@@ -187,3 +147,8 @@ class VisitedCount(models.Model):
     class Meta:
         managed = False
         db_table = "count"
+
+
+from django.db import models
+
+# Create your models here.
