@@ -1,0 +1,26 @@
+body {
+    background: url('/static/img/background.jpg')no-repeat;
+    background-size: cover;
+}
+
+section {
+    display: flex;
+    justify-content: center;
+}
+
+select {
+    width: auto;
+    margin: auto;
+    font-size: clamp(14px, 1vw, 32px);
+}
+
+h1,
+ul {
+    color: white;
+}
+
+#map {
+    height: 85%;
+    width: 95%;
+    margin: auto;
+}

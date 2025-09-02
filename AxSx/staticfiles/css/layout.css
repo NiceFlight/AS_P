@@ -1,0 +1,24 @@
+div.nav {
+    font-size: clamp(14px, 1vw, 32px);
+    color: #fff;
+}
+
+div.nav a:link {
+    color: #fff;
+}
+
+div.nav a:visited {
+    color: #fff;
+}
+
+select#selectedCity {
+    width:auto;
+    margin: auto;
+    font-size: clamp(14px, 1vw, 32px);
+}
+
+select#selectedTown {
+    width: auto;
+    margin: auto;
+    font-size: clamp(14px, 1vw, 32px);
+}

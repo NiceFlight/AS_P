@@ -1,0 +1,69 @@
+{% extends "layout.html" %}
+{% load static %}
+{% block A %}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}" />
+  <link rel="stylesheet" href="{% static 'css/addsites.css' %}" />
+  <title>{{ name }}</title>
+{% endblock A %}
+{% block B %}
+  <section>
+    <div class="form-box">
+      <form action="{% url 'sitesadded' %}" method="post">
+        {% csrf_token %}
+        {% comment %} <div class="selection">
+          <select id="selectedCity" name="selectedCity" required>
+            <option value="">請選擇縣市</option>
+          </select>
+          <select id="selectedTown" name="selectedTown" required disabled>
+            <option value="">請選擇鄉鎮</option>
+          </select>
+        </div> {% endcomment %}
+        <br />
+        {{ form.as_p }}
+        <br />
+        <button>新增</button>
+      </form>
+    </div>
+  </section>
+  {% comment %} <script>
+    // 設定下拉選單
+    const citySelect = document.getElementById('selectedCity')
+    const townSelect = document.getElementById('selectedTown')
+    
+    // 假設有一個 JSON 資料結構，包含縣市與鄉鎮的對應關係
+    fetch("{% static '/js/city_town_ID.json' %}")
+      .then((response) => response.json())
+      .then((data) => {
+        const cityTowns = data
+    
+        // 動態填充縣市選項
+        for (const city in cityTowns) {
+          const option = document.createElement('option')
+          option.value = city
+          option.textContent = city
+          citySelect.appendChild(option)
+        }
+    
+        // 監聽縣市選項的變化
+        citySelect.addEventListener('change', () => {
+          const selectedCity = citySelect.value
+          const towns = cityTowns[selectedCity]
+    
+          // 清空鄉鎮選項
+          townSelect.innerHTML = '<option value="">請選擇鄉鎮</option>'
+    
+          // 動態填充鄉鎮選項
+          towns.forEach((town) => {
+            const option = document.createElement('option')
+            option.value = town
+            option.textContent = town
+            townSelect.appendChild(option)
+          })
+          townSelect.disabled = false
+        })
+      })
+      .catch((error) => console.error('Error:', error))
+  </script> {% endcomment %}
+{% endblock B %}

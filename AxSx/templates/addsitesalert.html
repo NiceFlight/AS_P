@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+{% load static %}
+{% block A %}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}" />
+  <link rel="stylesheet" href="{% static 'css/addsites.css' %}" />
+  <title>{{ name }}</title>
+{% endblock A %}
+{% block B %}
+  <section>
+    <div class="form-box">
+      <form method="post">
+        {% csrf_token %}
+        <br />
+        {{ form.as_p }}
+        <br />
+        <button>新增</button>
+      </form>
+    </div>
+  </section>
+  <script>
+    // Django messages
+    {% if messages %}
+        {% for message in messages %}
+            alert('{{ message }}');
+        {% endfor %}
+    {% endif %}
+  </script>
+{% endblock B %}

@@ -1,0 +1,9 @@
+{% load static %}
+{% block A %}
+{% endblock A %}
+<div class="nav">
+  <a href="{% url '' %}">Home</a> ｜ <a href="{% url 'hubmap' %}">Hub map</a> ｜ <a href="{% url 'shipwreck' %}">Ship wreck</a> ｜ <a href="{% url 'circuits' %}">Circuits</a>｜<a href="{% url 'sias' %}">Si Map</a> ｜ <a href="{% url 'geolocation' %}">Geolocation</a> ｜ <a href="{% url 'adddata' %}">Add Data</a>
+</div>
+<link rel="stylesheet" href="{% static 'css/layout.css' %}" />
+{% block B %}
+{% endblock B %}

@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+{% load static %}
+{% block A %}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="{% static 'css/shipwreck.css' %}" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <title>{{ name }}</title>
+{% endblock A %}
+{% block B %}
+  <br />
+  <div id="map"></div>
+  <script src="{% static 'js/shipwreck.js' %}"></script>
+  <script>
+    var shipwrecks = JSON.parse('{{ shipwreck_json|escapejs }}')
+    console.log(shipwrecks)
+    shipwrecks.forEach(function (shipwreck) {
+      var marker = L.marker([shipwreck.lat, shipwreck.lng]).addTo(map)
+      marker.bindPopup(`<b>No: ` + shipwreck.no + `</b>`)
+    })
+  </script>
+{% endblock B %}

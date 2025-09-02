@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+{% load static %}
+{% block A %}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="{% static 'css/geolocation.css' %}" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+{% endblock A %}
+{% block B %}
+  <br>
+  <div id="map"></div>
+  <script src="{% static 'js/geolocation.js' %}"></script>
+{% endblock B %}
