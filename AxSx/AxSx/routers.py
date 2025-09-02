@@ -1,5 +1,7 @@
 """使用在 admin.py 的設定"""
 
+from sys import last_exc
+
 
 class myAppRouter:
     """
@@ -7,24 +9,22 @@ class myAppRouter:
     Hub_app application.
     """
 
+    SYSTEM_APPS = {"auth", "admin", "contenttypes", "sessions"}
+
     def db_for_read(self, model, **hints):
         """
         Attempts to read Hub_app models go to second.
         """
-        if model._meta.app_label == "Hub_app":
+        label = model._meta.app_label
+        if label == "Hub_app":
             return "second"
-        elif model._meta.app_label == "Shipwreck_app":
+        elif label == "Shipwreck_app":
             return "third"
-        elif model._meta.app_label == "Axsx_app":
+        elif label == "Axsx_app":
             return "default"
-        elif (
-            model._meta.app_label == "sessions"
-            or model._meta.app_label == "auth"
-            or model._meta.app_label == "admin"
-            or model._meta.app_label == "contenttypes"
-        ):
+        elif label in self.SYSTEM_APPS:
             return "fourth"
-        return "default"
+        return "fourth"
 
     def db_for_write(self, model, **hints):
         """
@@ -41,10 +41,9 @@ class myAppRouter:
             or model._meta.app_label == "auth"
             or model._meta.app_label == "admin"
             or model._meta.app_label == "contenttypes"
-            or model._meta.app_label == "migrations"
         ):
             return "fourth"
-        return "default"
+        return "fourth"
 
     def allow_relation(self, obj1, obj2, **hints):
         """
