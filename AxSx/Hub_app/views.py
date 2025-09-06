@@ -9,27 +9,23 @@ import glob
 import hashlib
 
 
+def routesData(fileDir: str):
+    geojsonList = []
+    for path in glob.glob(fileDir):
+        # print(path)
+        try:
+            with open(path, "r", encoding="utf-8") as file:
+                data = json.load(file)
+                geojsonList.append(data)
+        except FileNotFoundError:
+            print("File not found. Please check the file path.")
+    return geojsonList
+
+
 def hubmap_json(request):
-    commercial_geojson = []
-    cargo_geojson = []
-    for path in glob.glob(r"geojson/commercial/*.geojson"):
-        # print(path)
-        try:
-            with open(path, "r", encoding="utf-8") as file:
-                data = json.load(file)
-                commercial_geojson.append(data)
-        except FileNotFoundError:
-            print("File not found. Please check the file path.")
-    # print(geojson_data)
-    for path in glob.glob(r"geojson/cargo/*.geojson"):
-        # print(path)
-        try:
-            with open(path, "r", encoding="utf-8") as file:
-                data = json.load(file)
-                cargo_geojson.append(data)
-        except FileNotFoundError:
-            print("File not found. Please check the file path.")
-    # print(geojson_data)
+    commercial_geojson = routesData("geojson/commercial/*.geojson")
+    cargo_geojson = routesData("geojson/cargo/*.geojson")
+
     return JsonResponse({"commercial": commercial_geojson, "cargo": cargo_geojson}, safe=False)
 
 
@@ -101,6 +97,6 @@ def update_hub(request):
         print(codeData)
         if codeData == validData:
             AirportsData.objects.using("second").filter(iata_code=iataCode).update(destination=1)
-
+            return redirect("hubmap")
         return redirect("hubmap")
     return redirect("hubmap")

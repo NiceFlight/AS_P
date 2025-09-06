@@ -55,9 +55,5 @@
     </div>
   </section>
   <script type="module" src="{% static 'js/cityTown.js' %}" defer></script>
-  <script>
-    {%if message%}
-      alert("{{ message }}")
-    {%endif%}
-  </script>
+  <script>{% if message %}alert("{{ message }}"){% endif %}</script>
 {% endblock B %}

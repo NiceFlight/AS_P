@@ -1,7 +1,5 @@
 """使用在 admin.py 的設定"""
 
-from sys import last_exc
-
 
 class myAppRouter:
     """
