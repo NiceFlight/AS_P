@@ -17,7 +17,7 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path, include
-import Hub_app.views
+import Routes_app.views
 import Shipwreck_app.views
 import Adddata_app.views
 import Addsites_app.views
@@ -41,9 +41,9 @@ urlpatterns = [
     path("addsites/", Addsites_app.views.addsites, name="addsites"),
     path("addsites/sitesadded/", Addsites_app.views.addsites, name="sitesadded"),
     path("addsitesalert/", Addsitesalert_app.views.addsitesalert, name="addsitesalert"),
-    path("hubmap/", Hub_app.views.hubmap, name="hubmap"),
-    path("hubmap/updatehub/", Hub_app.views.update_hub, name="updatehub"),
-    path("api/hubmap_json/", Hub_app.views.hubmap_json, name="hubmap_json"),
+    path("routesmap/", Routes_app.views.routesmap, name="routesmap"),
+    path("routesmap/updatedestination/", Routes_app.views.updateDestionation, name="updatedestination"),
+    path("api/hubmap_json/", Routes_app.views.hubmap_json, name="hubmap_json"),
     path("shipwreck/", Shipwreck_app.views.shipwreck, name="shipwreck"),
     path("api/circuits_json/", Circuits_app.views.circuits_json, name="circuits"),
     path("circuits/", Circuits_app.views.circuits, name="circuits"),

@@ -50,44 +50,8 @@ fetch("/api/hubmap_json/")
         },
       }).addTo(layerGroup);
     };
-    addGeoJsonLayer(data.commercial, "red", commercialLayer);
-    addGeoJsonLayer(data.cargo, "green", cargoLayer);
+    addGeoJsonLayer(data.commercial, "orange", commercialLayer);
+    addGeoJsonLayer(data.cargo, "lightgreen", cargoLayer);
     commercialLayer.addTo(map);
     cargoLayer.addTo(map);
-    // L.geoJSON(data.commercial, {
-    //     noWrap: true,  // 禁止地圖平鋪，有支援顯示 4326 才有作用，openstreetmap 沒有支援，寫進去不影響
-    //     style: {
-    //         color: 'red',
-    //         weight: 3,
-    //     },
-    //     coordsToLatLng: function (coords) {
-    //         return new L.LatLng(coords[1], coords[0]);
-    //     },
-    //     onEachFeature: function (feature, layer) {
-    //         if (feature.properties && feature.properties.start && feature.properties.end) {
-    //             // 點擊顯示起點-終點
-    //             layer.bindPopup(
-    //                 `<h3>${feature.properties.start} - ${feature.properties.end}</h3>`
-    //             );
-    //         }
-    //     }
-    // }).addTo(map);
-    // L.geoJSON(data.cargo, {
-    //     noWrap: true,  // 禁止地圖平鋪，有支援顯示 4326 才有作用，openstreetmap 沒有支援，寫進去不影響
-    //     style: {
-    //         color: 'green',
-    //         weight: 3,
-    //     },
-    //     coordsToLatLng: function (coords) {
-    //         return new L.LatLng(coords[1], coords[0]);
-    //     },
-    //     onEachFeature: function (feature, layer) {
-    //         if (feature.properties && feature.properties.start && feature.properties.end) {
-    //             // 點擊顯示起點-終點
-    //             layer.bindPopup(
-    //                 `<h3>${feature.properties.start} - ${feature.properties.end}</h3>`
-    //             );
-    //         }
-    //     }
-    // }).addTo(map);
   });
