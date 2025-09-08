@@ -60,10 +60,10 @@ def routesmap(request):
 
     context = {"hubs_json": hubs_json, "base_json": base_json, "destinations_json": destinations_json}
 
-    return render(request, "hubmap.html", context=context)
+    return render(request, "routesmap.html", context=context)
 
 
-def updateDestionation(request):
+def updateDestination(request):
 
     # 查詢出 hub
     hubs_json = json.dumps(queryset(AirportsData.objects.using("second").filter(hub=1)))
@@ -75,10 +75,10 @@ def updateDestionation(request):
 
         validData = "0d60dc25c608adc6f988e81abe10780c3534bc7ae2ebe16421095ae8ae19ca9b"
 
-        data = request.POST.get("updatehub")
+        data = request.POST.get("updateDestination")
         # print(data)
         iataCode = data[:3] if data else "1234"
-        codeData = hashlib.sha256(data[3:] if data else "1234".encode()).hexdigest()
+        codeData = hashlib.sha256((data[3:] if data else "1234").encode()).hexdigest()
         # print(codeData)
         if codeData == validData and len(iataCode) == 3:
             AirportsData.objects.using("second").filter(iata_code=iataCode).update(destination=1)
@@ -88,17 +88,17 @@ def updateDestionation(request):
 
             context = {"hubs_json": hubs_json, "base_json": base_json, "destinations_json": destinations_json, "message": "Update successful!"}
 
-            return render(request, "hubmap.html", context=context)
+            return render(request, "routesmap.html", context=context)
         else:
 
             # 查詢出 destionation
             destinations_json = json.dumps(queryset(AirportsData.objects.using("second").filter(destination=1)))
             context = {"hubs_json": hubs_json, "base_json": base_json, "destinations_json": destinations_json, "message": "Update failed!"}
 
-            return render(request, "hubmap.html", context=context)
+            return render(request, "routesmap.html", context=context)
 
     # 查詢出 destionation
     destinations_json = json.dumps(queryset(AirportsData.objects.using("second").filter(destination=1)))
     context = {"hubs_json": hubs_json, "base_json": base_json, "destinations_json": destinations_json, "message": "try update again!"}
 
-    return render(request, "hubmap.html", context=context)
+    return render(request, "routesmap.html", context=context)
