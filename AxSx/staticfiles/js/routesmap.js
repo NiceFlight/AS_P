@@ -19,7 +19,7 @@ L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
   className: "grayscale",
 }).addTo(map);
 
-fetch("/api/hubmap_json/")
+fetch("/api/routesmap_json/")
   .then((response) => response.json())
   .then((data) => {
     // console.log(data);
