@@ -40,7 +40,7 @@ def queryset(query):
     return airportssetList
 
 
-def hubmap_json(request):
+def routesmap_json(request):
     commercial_geojson = routesData("geojson/commercial/*.geojson")
     cargo_geojson = routesData("geojson/cargo/*.geojson")
 
