@@ -19,39 +19,66 @@ L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
   className: "grayscale",
 }).addTo(map);
 
-fetch("/api/routesmap_json/")
-  .then((response) => response.json())
-  .then((data) => {
-    // console.log(data);
-    const commercialLayer = L.layerGroup();
-    const cargoLayer = L.layerGroup();
 
-    const addGeoJsonLayer = (geojsonData, color, layerGroup) => {
-      L.geoJSON(geojsonData, {
-        noWrap: true,
-        style: {
-          color: color,
-          wight: 3,
-        },
-        coordsToLatLng: function (coords) {
-          return new L.LatLng(coords[1], coords[0]);
-        },
-        onEachFeature: function (feature, layer) {
-          if (
-            feature.properties &&
-            feature.properties.start &&
-            feature.properties.end
-          ) {
-            // 點擊顯示起點-終點
-            layer.bindPopup(
-              `<h3>${feature.properties.start} - ${feature.properties.end}</h3>`
-            );
-          }
-        },
-      }).addTo(layerGroup);
-    };
-    addGeoJsonLayer(data.commercial, "orange", commercialLayer);
-    addGeoJsonLayer(data.cargo, "lightgreen", cargoLayer);
-    commercialLayer.addTo(map);
-    cargoLayer.addTo(map);
+function addRoutesLayer(type, routecolor) {
+  fetch("/api/routesmap_json").then((response) => response.json()).then((data) => {
+    // console.log(data)
+    const typeLayer = data[type]
+    // console.log(commercialLayer)
+    L.geoJSON(typeLayer, {
+      style: {
+        color: routecolor,
+        weight: 3
+      },
+      onEachFeature: function (feature, layer) {
+        if (feature.properties && feature.properties.start && feature.properties.end) {
+          // 點擊顯示起點-終點
+          layer.bindPopup(
+            `<h3>${type}</h3>` +
+            `<p>${feature.properties.start} - ${feature.properties.end}</p>`
+          );
+        }
+      }
+    }).addTo(map);
   });
+}
+
+addRoutesLayer("commercial", "khaki")
+addRoutesLayer("cargo", "orange")
+
+// fetch("/api/routesmap_json/")
+//   .then((response) => response.json())
+//   .then((data) => {
+//     console.log(data);
+//     const commercialLayer = L.layerGroup();
+//     const cargoLayer = L.layerGroup();
+
+//     const addGeoJsonLayer = (geojsonData, color, layerGroup) => {
+//       L.geoJSON(geojsonData, {
+//         noWrap: true,
+//         style: {
+//           color: color,
+//           weight: 3,
+//         },
+//         coordsToLatLng: function (coords) {
+//           return new L.LatLng(coords[1], coords[0]);
+//         },
+//         onEachFeature: function (feature, layer) {
+//           if (
+//             feature.properties &&
+//             feature.properties.start &&
+//             feature.properties.end
+//           ) {
+//             // 點擊顯示起點-終點
+//             layer.bindPopup(
+//               `<h3>${feature.properties.start} - ${feature.properties.end}</h3>`
+//             );
+//           }
+//         },
+//       }).addTo(layerGroup);
+//     };
+//     addGeoJsonLayer(data.commercial, "orange", commercialLayer);
+//     addGeoJsonLayer(data.cargo, "lightgreen", cargoLayer);
+//     commercialLayer.addTo(map);
+//     cargoLayer.addTo(map);
+//   });

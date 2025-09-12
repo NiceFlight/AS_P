@@ -4,7 +4,7 @@ from django.shortcuts import render
 
 
 def circuits_json(request):
-    with open("static/js/f1-circuits.geojson", "r", encoding="utf-8") as file:
+    with open("static/js/2025-f1-circuits.geojson", "r", encoding="utf-8") as file:
         data = json.load(file)
     # print(data)
     # selectList = []
@@ -16,7 +16,5 @@ def circuits_json(request):
 
 
 def circuits(request):
-    context = {
-        "name": "Circuits Map",
-    }
+    context = {"name": "Circuits Map"}
     return render(request, "circuits.html", context)
