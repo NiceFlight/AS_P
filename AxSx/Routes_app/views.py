@@ -1,12 +1,12 @@
 from django.shortcuts import render, HttpResponse, redirect
 from django.http import JsonResponse
 import pymysql
-import pymysql.cursors
-from Routes_app.models import AirportsData
+from Routes_app.models import AirportsData, Routes
 import json
 from decimal import Decimal
 import glob
 import hashlib
+from django.contrib.gis.geos import GEOSGeometry
 
 
 def routesData(fileDir: str):
@@ -41,8 +41,31 @@ def queryset(query):
 
 
 def routesmap_json(request):
+    """read from mysql database"""
+    # data = Routes.objects.using("second").filter(route_type="cargo")  # 讀了解不開啦
+
+    cargo_list = []
+    dbsetting = {"host": "localhost", "port": 3306, "user": "root", "password": "204821", "database": "airline_manager"}
+    conn = pymysql.connect(**dbsetting)
+    with conn.cursor() as cursor:
+        cursor.execute("select route,route_type, distance,  ST_AsGeoJson(geom) AS geom_text from routes where route_type = 'cargo'")
+        data = cursor.fetchall()
+        conn.close()
+
+    for _ in data:
+        geodata = {
+            "type": "FeatureCollection",
+            "features": [{"type": "Feature", "geometry": json.loads(_[3]), "properties": {"start": _[0][:3], "end": _[0][-3:], "distance": _[2]}}],
+        }
+        # print(geodata)
+        cargo_list.append(geodata)
+
+    cargo_geojson = cargo_list
+
+    """read json from fiile"""
     commercial_geojson = routesData("geojson/commercial/*.geojson")
-    cargo_geojson = routesData("geojson/cargo/*.geojson")
+    # cargo_geojson = routesData("geojson/cargo/*.geojson")
+    # print(cargo_geojson)
 
     return JsonResponse({"commercial": commercial_geojson, "cargo": cargo_geojson}, safe=False)
 

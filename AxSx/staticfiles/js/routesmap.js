@@ -43,7 +43,7 @@ function addRoutesLayer(type, routecolor) {
   });
 }
 
-addRoutesLayer("commercial", "khaki")
+addRoutesLayer("commercial", "#8FBC8F")
 addRoutesLayer("cargo", "orange")
 
 // fetch("/api/routesmap_json/")

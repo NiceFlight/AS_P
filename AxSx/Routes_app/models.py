@@ -73,3 +73,14 @@ class PriceHistory(models.Model):
     class Meta:
         managed = False
         db_table = "price_history"
+
+
+class Routes(models.Model):
+    route = models.CharField(max_length=255, blank=True, null=True)
+    route_type = models.CharField(max_length=15, blank=True, null=True)
+    distance = models.IntegerField(blank=True, null=True)
+    geom = models.TextField(blank=True, null=True)  # This field type is a guess.
+
+    class Meta:
+        managed = False
+        db_table = "routes"

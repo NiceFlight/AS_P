@@ -12,7 +12,7 @@ div.nav a:visited {
 }
 
 select#selectedCity {
-    width:auto;
+    width: auto;
     margin: auto;
     font-size: clamp(14px, 1vw, 32px);
 }
@@ -22,3 +22,13 @@ select#selectedTown {
     margin: auto;
     font-size: clamp(14px, 1vw, 32px);
 }
+
+/* footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: right;
+    color: white;
+    padding: 10px;
+} */

@@ -2,11 +2,16 @@ import { csrf_token } from "./csrf.js";
 
 
 // 初始化地圖
-const map = L.map("map").setView([23.97565, 120.9738819], 8); // 台灣的中心座標
+const map = L.map("map").setView([23.97565, 120.9738819], 7); // 台灣的中心座標
 
 // 添加底圖
-L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+// L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+//   attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+// }).addTo(map);
+
+/* PHOTO2: 正射影像；EMAP5: 電子地圖；B50000、B10000: 地形圖；DDEM05: DEM */
+L.tileLayer("https://wmts.nlsc.gov.tw/wmts/EMAP5/default/EPSG:3857/{z}/{y}/{x}.png", {
+  attribution: '&copy;國土測繪中心 contributors',
 }).addTo(map);
 
 
@@ -14,7 +19,8 @@ L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
 /* global proj4 */
 // 定義座標轉換參數
 proj4.defs("EPSG:3826", "+proj=tmerc +lat_0=0 +lon_0=121 +k=0.9999 +x_0=250000 +y_0=0 +ellps=GRS80 +units=m +no_defs");
-const coordsDisplay = document.getElementById("coords");
+const coordsTWD97 = document.getElementById("coordsTWD97");
+const coordsWGS84 = document.getElementById("coordsWGS84");
 map.on("mousemove", function (e) {
   // 提取 lat lng
   const lat = e.latlng.lat.toFixed(6);
@@ -22,8 +28,10 @@ map.on("mousemove", function (e) {
   // 座標轉換
   const twd97 = proj4("EPSG:4326", "EPSG:3826", [parseFloat(lng), parseFloat(lat)]);
   // console.log(twd97);
-  // 顯示在地圖上
-  coordsDisplay.textContent = `X, Y：${twd97[0].toFixed(6)}, ${twd97[1].toFixed(6)}`;
+  // 顯示 TWD97 座標
+  coordsTWD97.textContent = `X, Y：${twd97[0].toFixed(6)}, ${twd97[1].toFixed(6)}`;
+  // // 顯示 WGS84 座標
+  coordsWGS84.textContent = `Lat, Lng：${lat}, ${lng}`;
 });
 
 
@@ -47,13 +55,24 @@ document.getElementById("selectedTown").addEventListener("change", function () {
     .then((data) => {
       // 在地圖上標記
       if (data.status === "success") {
-        var coordinates = data.coordinates;
-        var filterData = data.filterData;
+        const coordinates = data.coordinates;
+        const filterData = data.filterData;
 
         // 清除geojsonLayer
         if (geojsonLayer) {
           map.removeLayer(geojsonLayer);
         }
+
+        // 清除標記
+        map.eachLayer(function (layer) {
+          if (layer instanceof L.Marker) {
+            map.removeLayer(layer);
+          }
+        });
+
+        // 清空列表
+        const locationList = document.getElementById("location-list");
+        locationList.innerHTML = "";
 
         geojsonLayer = L.geoJSON(filterData, {
           style: function () {
@@ -68,29 +87,46 @@ document.getElementById("selectedTown").addEventListener("change", function () {
         var bounds = geojsonLayer.getBounds();
         map.fitBounds(bounds);
 
-        // 清除標記
-        map.eachLayer(function (layer) {
-          if (layer instanceof L.Marker) {
-            map.removeLayer(layer);
-          }
-        });
-        coordinates.forEach(function (coord) {
-          var marker = L.marker([coord.lat, coord.lng]).addTo(map).bindPopup(`<h3>${coord.name}</h3>`);
+        // 如果沒有座標資料，表格清空
+        // console.log(coordinates);
+        if (!coordinates || coordinates.length === 0) {
+          locationList.textContent = "目前沒有資料。";
+          return;
+        }
+
+        const table = document.createElement("table");
+        table.style.borderCollapse = "collapse";
+        table.style.width = "100%"
+
+        let row;
+        coordinates.forEach((location, index) => {
+          var marker = L.marker([location.lat, location.lng]).addTo(map).bindPopup(`<h3>${location.name}</h3>`);
+
           marker.on("mouseover", function () {
             this.openPopup();
           });
+
           marker.on("mouseout", function () {
             this.closePopup();
           });
-          // 列出標記
-          const locationList = document.getElementById("location-list");
-          locationList.innerHTML = "";
-          data.coordinates.forEach((location) => {
-            const listItem = document.createElement("li");
-            listItem.textContent = `${location.name}`;
-            locationList.appendChild(listItem);
-          });
+
+          if (index % 10 === 0) {
+            row = document.createElement("tr");
+            table.appendChild(row);
+          }
+
+          const cell = document.createElement("td");
+          const listItem = document.createElement("li");
+          const link = document.createElement("a");
+          link.href = `https://www.google.com/maps/dir/?api=1&destination=${location.lat},${location.lng}`;
+          link.target = "_blank";
+          link.textContent = `${location.name}`;
+          // listItem.textContent = `${location.name}`;
+          listItem.appendChild(link);
+          cell.appendChild(listItem);
+          row.appendChild(cell);
         });
+        locationList.appendChild(table);
       } else {
         console.error("error:", data.error);
       }

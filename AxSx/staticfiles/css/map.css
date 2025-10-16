@@ -12,21 +12,26 @@ h1,
 h2,
 ul,
 p {
-  color: white;
+  color: white
+}
+
+li,
+a {
+  color: lime;
 }
 
 #map {
-  height: 85%;
-  width: 95%;
+  height: 70%;
+  width: 100%;
   margin: auto;
 }
 
 /* 座標顯示框的樣式 */
-#coords {
+#coordsTWD97 {
   position: absolute;
   /* 固定位置在畫面上 */
-  bottom: 75px;
-  right: 60px;
+  top: 10.8%;
+  right: 0.5%;
   background: white;
   /* 白底 */
   padding: 5px 10px;
@@ -41,6 +46,24 @@ p {
   /* 陰影效果 */
 }
 
+#coordsWGS84 {
+  position: absolute;
+  /* 固定位置在畫面上 */
+  bottom: 22.8%;
+  right: 0.5%;
+  background: white;
+  /* 白底 */
+  padding: 5px 10px;
+  /* 內距 */
+  font-family: sans-serif;
+  /* 字型 */
+  z-index: 1000;
+  /* 保證在地圖上層顯示 */
+  border-radius: 4px;
+  /* 圓角 */
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  /* 陰影效果 */
+}
 
 footer {
   position: fixed;
