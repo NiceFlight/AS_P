@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+{% load static %}
+{% block A %}
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}" />
+    <link rel="stylesheet" href="{% static 'css/aslist.css' %}" />
+    <title>{{ name }}</title>
+{% endblock A %}
+{% block B %}
+    {% for post in page_obj %}
+        <div class="sias-name">
+            <p>{{ post.name }}</p>
+        </div>
+    {% endfor %}
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                {% comment %} <a href="?page=1">第一頁</a> {% endcomment %}
+                <a href="?page={{ page_obj.previous_page_number }}">« 上一頁</a>
+            {% endif %}
+            {% for num in page_obj.paginator.page_range %}
+                {% if num == 1 or num == page_obj.paginator.num_pages or num >= page_obj.number|add:"-2" and num <= page_obj.number|add:"2" %}
+                    {% if num == page_obj.number %}
+                        <span class="current">{{ num }}</span>
+                    {% else %}
+                        <a href="?page={{ num }}">{{ num }}</a>
+                    {% endif %}
+                {% elif num == page_obj.number|add:"-3" or num == page_obj.number|add:"3" %}
+                    <span>......</span>
+                {% endif %}
+            {% endfor %}
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">下一頁 »</a>
+                {% comment %} <a href="?page={{ page_obj.paginator.num_pages }}">最後一頁</a> {% endcomment %}
+            {% endif %}
+        </span>
+    </div>
+{% endblock B %}
