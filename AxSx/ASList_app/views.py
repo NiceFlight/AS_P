@@ -6,7 +6,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 # Create your views here.
 def ASList(request):
 
-    AllAs = SinicaArchaeologySites.objects.using("default").all().order_by("id")
+    AllAs = SinicaArchaeologySites.objects.using("default").all().order_by("code")
 
     paginator = Paginator(AllAs, 20)
     # print(dir(paginator))

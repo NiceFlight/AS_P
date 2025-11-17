@@ -2,17 +2,20 @@ import { csrf_token } from "./csrf.js";
 
 
 // 初始化地圖
-const map = L.map("map").setView([23.97565, 120.9738819], 7); // 台灣的中心座標
+const map = L.map("map", {
+  center: [23.97565, 120.9738819],
+  zoom: 7
+}); // 台灣的中心座標
 
 // 添加底圖
-// L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-//   attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-// }).addTo(map);
+L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+}).addTo(map);
 
 /* PHOTO2: 正射影像；EMAP5: 電子地圖；B50000、B10000: 地形圖；DDEM05: DEM */
-L.tileLayer("https://wmts.nlsc.gov.tw/wmts/EMAP5/default/EPSG:3857/{z}/{y}/{x}.png", {
-  attribution: '&copy;國土測繪中心 contributors',
-}).addTo(map);
+// L.tileLayer("https://wmts.nlsc.gov.tw/wmts/EMAP5/default/EPSG:3857/{z}/{y}/{x}.png", {
+//   attribution: '&copy;國土測繪中心 contributors',
+// }).addTo(map);
 
 
 // 顯示座標
