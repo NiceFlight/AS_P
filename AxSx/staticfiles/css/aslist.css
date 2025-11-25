@@ -21,7 +21,7 @@ th.sias-code {
 }
 
 th.sias-type {
-    width: 700px;
+    width: 780px;
     color: brown;
     font-size: 150%;
 }
@@ -40,7 +40,7 @@ div.pagination a {
 span.current {
     font-size: 20px;
     font-weight: bold;
-    color: #1f5700;
+    color: #dc8b22;
 }
 
 div.pagination {

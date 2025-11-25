@@ -43,10 +43,13 @@
                 {% if num == page_obj.number %}
                     <span class="current">{{ num }}</span>
                     <span>｜</span>
-                {% elif num == 1 or num == page_obj.paginator.num_pages or num >= page_obj.number|add:"-2" and num <= page_obj.number|add:"2" %}
+                {% elif num == 1 or num == page_obj.paginator.num_pages %}
                     <a href="?page={{ num }}">{{ num }}</a>
                     <span>｜</span>
-                {% elif num >= page_obj.number|add:"-3" and num <= page_obj.number|add:"3" %}
+                {% elif page_obj.number|add:"-2" <= num and num <= page_obj.number|add:"2" %}
+                    <a href="?page={{ num }}">{{ num }}</a>
+                    <span>｜</span>
+                {% elif num == page_obj.number|add:"-3" or num == page_obj.number|add:"3" %}
                     <span>......</span>
                 {% endif %}
             {% endfor %}
@@ -54,9 +57,11 @@
             {% comment %} <br>
             <br>
             <br>
-            {% if page_obj.has_previous %} {% endcomment %}
-                {% comment %} <a href="?page=1">第一頁</a> {% endcomment %}
-                {% comment %} <a href="?page={{ page_obj.previous_page_number }}">« 上一頁</a>
+            <br>
+            <br>
+            {% if page_obj.has_previous %}
+                <a href="?page=1">第一頁</a>
+                <a href="?page={{ page_obj.previous_page_number }}">« 上一頁</a>
                 <span>｜</span>
             {% endif %}
             {% for num in page_obj.paginator.page_range %}
@@ -71,11 +76,12 @@
                 {% elif num == page_obj.number|add:"-3" or num == page_obj.number|add:"3" %}
                     <span>......</span>
                 {% endif %}
-                {% endfor %} {% endcomment %}
-                {% if page_obj.has_next %}
-                    <a href="?page={{ page_obj.next_page_number }}">下一頁 »</a>
-                    {% comment %} <a href="?page={{ page_obj.paginator.num_pages }}">最後一頁</a> {% endcomment %}
-                {% endif %}
-            </span>
-        </div>
-    {% endblock B %}
+            {% endfor %}
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">下一頁 »</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">最後一頁</a>
+            {% endif %} {% endcomment %}
+        </span>
+    </div>
+    {% comment %} <script>console.log("{{ page_obj|escapejs }}");</script> {% endcomment %}
+{% endblock B %}

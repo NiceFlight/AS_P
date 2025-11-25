@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from regex import P
 from SiAs_app.models import SinicaArchaeologySites
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
@@ -22,6 +23,9 @@ def ASList(request):
     except EmptyPage:
         # 如果頁碼超出範圍 (e.g., 第 999 頁)，則顯示最後一頁
         page_obj = paginator.page(paginator.num_pages)
+
+    # for post in page_obj:
+    #     print(dir(post))
 
     context = {"name": "Si List", "page_obj": page_obj}
 

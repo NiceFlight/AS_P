@@ -27,6 +27,7 @@ import SiAs_app.views
 import Geolocation_app.views
 import Axsx_app.views
 import ASList_app.views
+import maplibre_app.views
 from django.views.generic import RedirectView
 
 app_name = "axsx"
@@ -52,4 +53,6 @@ urlpatterns = [
     path("api/sias_json/", SiAs_app.views.view_sias, name="view_sias"),
     path("geolocation/", Geolocation_app.views.geolocation, name="geolocation"),
     path("aslist/", ASList_app.views.ASList, name="aslist"),
+    path("maplibre/", maplibre_app.views.maplibre_app, name="maplibre"),
+    path("api/views_AxSx/", maplibre_app.views.view_AxSx, name="view_AxSx"),
 ]
