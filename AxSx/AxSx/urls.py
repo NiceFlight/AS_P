@@ -54,5 +54,5 @@ urlpatterns = [
     path("geolocation/", Geolocation_app.views.geolocation, name="geolocation"),
     path("aslist/", ASList_app.views.ASList, name="aslist"),
     path("maplibre/", maplibre_app.views.maplibre_app, name="maplibre"),
-    path("api/views_AxSx/", maplibre_app.views.view_AxSx, name="view_AxSx"),
+    path("api/views_maplibre/", maplibre_app.views.view_maplibre, name="view_AxSx"),
 ]

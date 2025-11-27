@@ -11,7 +11,7 @@ def maplibre_app(request):
     return render(request, template_name="maplibre.html", context=context)
 
 
-def view_AxSx(request):
+def view_maplibre(request):
     if request.method == "POST":
         data = json.loads(request.body)
         # print(data)

@@ -65,13 +65,6 @@
     {% comment %} // ⭐ 這一步很重要：style 載入後才切換成地球模式
     map.on("style.load", () => {
       map.setProjection({ type: "globe" });
-    // optional：加一些光暈效果讓地球看起來更像地球
-      map.setFog({
-        "color": "rgb(186, 210, 235)", 
-        "high-color": "rgb(36, 92, 223)",
-        "space-color": "rgb(11, 11, 25)",
-        "horizon-blend": 0.2
-      });
 }); 
       // 加入一個標記
       new maplibregl.Marker()
@@ -86,7 +79,7 @@ document.getElementById("selectedTown").addEventListener("change", function () {
   var filterTown = townSelect.value.split("(")[1].substring(0, 3);
   // console.log(townSelect.value.slice(-4, -1))
   // 異步請求，將選擇的資料送到後端伺服器查詢
-  fetch("/api/views_AxSx/", {
+  fetch("/api/views_maplibre/", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
