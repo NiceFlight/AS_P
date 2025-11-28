@@ -79,7 +79,7 @@ document.getElementById("selectedTown").addEventListener("change", function () {
   var filterTown = townSelect.value.split("(")[1].substring(0, 3);
   // console.log(townSelect.value.slice(-4, -1))
   // 異步請求，將選擇的資料送到後端伺服器查詢
-  fetch("/api/views_maplibre/", {
+  fetch("{% url 'view_maplibre' %}", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
