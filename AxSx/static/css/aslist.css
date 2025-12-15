@@ -1,0 +1,54 @@
+body {
+    background: url("/static/img/background.jpg")no-repeat;
+    background-size: cover;
+}
+
+.sias-content {
+    display: flex;
+    justify-content: center;
+}
+
+th.sias-name {
+    width: 250px;
+    color: brown;
+    font-size: 150%;
+}
+
+th.sias-code {
+    width: 100px;
+    color: brown;
+    font-size: 150%;
+}
+
+th.sias-type {
+    width: 780px;
+    color: brown;
+    font-size: 150%;
+}
+
+td {
+    text-align: center;
+    color: white;
+    font-size: 130%;
+}
+
+div.pagination,
+div.pagination a {
+    color: white;
+}
+
+span.current {
+    font-size: 20px;
+    font-weight: bold;
+    color: #dc8b22;
+}
+
+div.pagination {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    color: white;
+    padding: 1%;
+}

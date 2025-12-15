@@ -1,0 +1,136 @@
+{% extends "layout.html" %}
+{% load static %}
+{% block A %}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}" />
+  <link rel="stylesheet" href="{% static 'css/maplibre.css' %}" />
+  <!-- 引入 MapLibre GL CSS -->
+  <link href="https://unpkg.com/maplibre-gl@5.0.1/dist/maplibre-gl.css"
+        rel="stylesheet" />
+  <!-- 引入 MapLibre GL JS -->
+  <script src="https://unpkg.com/maplibre-gl@5.0.1/dist/maplibre-gl.js"></script>
+  <!-- CDN 版本 -->
+  <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6/turf.min.js"></script>
+  <script type="module" src="{% static 'js/cityTown.js' %}" defer></script>
+  <script type="module" src="{% static 'js/csrf.js' %}" defer></script>
+  <title>{{ name }}</title>
+{% endblock A %}
+{% block B %}
+  <br>
+  <section>
+    <div class="select">
+      <select id="selectedCity">
+        <option value="">請選擇縣市</option>
+      </select>
+      <select id="selectedTown" disabled>
+        <option value="">請選擇鄉鎮</option>
+      </select>
+      <button id="toGlobe">切換成地球</button>
+      <button id="toMercator">切換成平面</button>
+    </div>
+  </section>
+  <br>
+  <div id="map"></div>
+  <script>
+    // Django Template 渲染 {{ csrf_token }}
+
+    window.csrfToken = "{{ csrf_token }}";
+
+    // 初始化地圖
+    const map = new maplibregl.Map({
+      container: 'map', // 地圖容器 ID
+      // style: 'https://tiles.stadiamaps.com/styles/osm_bright.json',
+      style: 'https://demotiles.maplibre.org/style.json', // 地圖樣式來源
+      center: [121.5, 25.05], // 初始中心點 (台北)
+      zoom: 1.5,  // 初始縮放層級
+    });
+
+    // 加入縮放與旋轉控制
+    map.addControl(new maplibregl.NavigationControl({
+        visualizePitch: true,
+        visualizeRoll: true,
+        showZoom: true,
+        showCompass: true
+    }));
+    
+    document.getElementById("toGlobe").addEventListener("click", ()=>{
+      map.setProjection({ type: "globe" });
+    });
+
+    document.getElementById("toMercator").onclick = ()=>{
+      map.setProjection({ type: "mercator" });
+    };
+
+    {% comment %} // ⭐ 這一步很重要：style 載入後才切換成地球模式
+    map.on("style.load", () => {
+      map.setProjection({ type: "globe" });
+}); 
+      // 加入一個標記
+      new maplibregl.Marker()
+        .setLngLat([121.5, 25.05]) // 台北市中心
+.addTo(map); {% endcomment %}
+let geojsonLayerId = "geojsonLayer";
+let geojsonSourceId = "geojsonSource";
+let markers = [];
+const townSelect = document.getElementById("selectedTown");
+
+document.getElementById("selectedTown").addEventListener("change", function () {
+  var filterTown = townSelect.value.split("(")[1].substring(0, 3);
+  // console.log(townSelect.value.slice(-4, -1))
+  // 異步請求，將選擇的資料送到後端伺服器查詢
+  fetch("{% url 'view_maplibre' %}", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      // Django template 渲染的變數{{ csrf_token }} 或從 document.cookie 找出名為csrftoken 的值
+      "X-CSRFToken": window.csrfToken || csrf_token(),
+    },
+    body: JSON.stringify({ filterTown: filterTown }),
+  })
+    .then((response) => response.json()) // 後端伺服器回傳查詢結果並 Json 格式化
+    .then((data) => {
+      // 在地圖上標記
+      if (data.status === "success") {
+        const coordinates = data.coordinates;
+        const filterData = data.filterData;
+
+        // 清除geojsonLayer
+        if (map.getLayer(geojsonLayerId)) {
+          map.removeLayer(geojsonLayerId);
+        }
+        if (map.getSource(geojsonSourceId)) {
+          map.removeSource(geojsonSourceId);
+        }
+
+        // 清除標記
+        markers.forEach(m =>m.remove());
+        markers = [];
+
+        // 新增 geojson source + layer
+        map.addSource(geojsonSourceId, {type:"geojson", data:filterData, });
+
+        map.addLayer({id:geojsonLayerId, type:"line", source:geojsonSourceId, paint:{"line-color":"#ff0000", "line-width":3, },});
+
+        // 更新邊界
+        const bounds = turf.bbox(filterData);
+        map.fitBounds(bounds, {padding:20});
+
+        let row;
+        coordinates.forEach((location, index) => {
+          const marker = new maplibregl.Marker()
+          .setLngLat([location.lng, location.lat])
+          .setPopup(new maplibregl.Popup().setHTML(`<h3>${location.name}</h3>`))
+          .addTo(map);
+        
+          markers.push(marker);
+        });
+      } else {
+        console.error("error:", data.error);
+      }
+    })
+    .catch((error) => console.error("Error:", error));
+});
+
+  </script>
+{% endblock B %}

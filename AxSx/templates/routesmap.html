@@ -1,0 +1,63 @@
+{% extends "layout.html" %}
+{% load static %}
+{% block A %}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <link rel="stylesheet" href="{% static 'css/routesmap.css' %}" />
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <title>Hub Map</title>
+{% endblock A %}
+{% block B %}
+  <br />
+  <section>
+    <form action="{% url 'updatedestination' %}" method="post">
+      {% csrf_token %}
+      <label for="">Update</label>
+      <input type="password" name="updateDestination" />
+      <button type="submit">UPDATE</button>
+    </form>
+  </section>
+  <section>
+    <div id="map"></div>
+  </section>
+  <script src="{% static 'js/routesmap.js' %}"></script>
+  <script>
+    function createMaker(dataList, type, iconUrl){
+      // 設定 marker
+      var customIcon = L.icon({
+        iconUrl:iconUrl, 
+        iconSize: [25 * 0.75, 41 * 0.75],
+        iconAnchor: [9, 30], // 設定 icon 的 anchor 點
+        popupAnchor: [0, -30], // 彈出窗口錨點（相對於 iconAnchor 的位置）
+      });
+
+      // 顯示 marker
+      dataList.forEach(function(item){
+        var marker = L.marker([item.lat, item.lng], {icon: customIcon}).addTo(map);
+        marker.bindPopup(
+          `<b>Type: ${type}</b>`+
+          `<br>`+
+          `<b>Name: ${item.name}</b>`+
+          `<br>`+
+          `<b>IATA code: ${item.iatacode}</b>`+
+          `<br>`+
+          `<b>Country: ${item.country}</b>`+
+          `<br>`+
+          `<b>City: ${item.city}</b>`
+        );
+        marker.on("mouseover", function (e) {
+          this.openPopup();
+        });
+        marker.on("mouseout", function (e) {
+          this.closePopup();
+        });
+      });
+    }
+
+    createMaker(JSON.parse("{{ base_json|escapejs}}"), "Base", "https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png");
+    createMaker(JSON.parse("{{ hubs_json|escapejs}}"), "Hub", "https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png");
+    createMaker(JSON.parse("{{ destinations_json|escapejs}}"), "Destination", "https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png");
+  </script>
+  <script>{% if message %}alert("{{message}}"){% endif %}</script>
+{% endblock B %}

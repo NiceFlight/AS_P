@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+{% load static %}
+{% block A %}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  {% comment %} <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}" /> {% endcomment %}
+  <link rel="stylesheet" href="{% static 'css/map.css' %}" />
+  <title>{{ name }}</title>
+{% endblock A %}
+{% block B %}
+  <h1>{{ name }}</h1>
+{% endblock B %}

@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+{% load static %}
+{% block A %}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="{% static 'css/map.css' %}" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.8.0/proj4.js"></script>
+  <title>{{ name }}</title>
+{% endblock A %}
+{% block B %}
+  <br />
+  <section>
+    <div class="select">
+      <select id="selectedCity">
+        <option value="">請選擇縣市</option>
+      </select>
+      <select id="selectedTown" disabled>
+        <option value="">請選擇鄉鎮</option>
+      </select>
+    </div>
+  </section>
+  <br />
+  <div id="coordsTWD97"></div>
+  <div id="coordsWGS84"></div>
+  <div id="map"></div>
+  <h2>名稱列表</h2>
+  <ul id="location-list">
+  </ul>
+  <footer>
+    <div>Counts: {{ visitCount }}</div>
+  </footer>
+  <script type="module" src="{% static 'js/initMap.js' %}" defer></script>
+  <script type="module" src="{% static 'js/cityTown.js' %}" defer></script>
+  <script type="module" src="{% static 'js/csrf.js' %}" defer></script>
+  <script>
+    // Django Template 渲染 {{ csrf_token }}
+    window.csrfToken = "{{ csrf_token }}";
+    // console.log(window.csrfToken)
+  </script>
+{% endblock B %}

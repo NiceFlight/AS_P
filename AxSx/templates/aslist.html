@@ -1,0 +1,87 @@
+{% extends "layout.html" %}
+{% load static %}
+{% block A %}
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}" />
+    <link rel="stylesheet" href="{% static 'css/aslist.css' %}" />
+    <title>{{ name }}</title>
+{% endblock A %}
+{% block B %}
+    <br>
+    <div class="sias-content">
+        <table>
+            <tr>
+                <th class="sias-name">Name</th>
+                <th class="sias-code">Code</th>
+                <th class="sias-type">Type</th>
+            </tr>
+            <br>
+            {% for post in page_obj %}
+                <tr>
+                    <td>{{ post.name }}</td>
+                    <td>{{ post.code }}</td>
+                    <td>
+                        {% if post.culture_type %}
+                            {{ post.culture_type|join:", "|safe }}
+                        {% else %}
+                            資料不足
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+    {% comment %} 頁碼 {% endcomment %}
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}">« 上一頁</a>
+                <span>｜</span>
+            {% endif %}
+            {% for num in page_obj.paginator.page_range %}
+                {% if num == page_obj.number %}
+                    <span class="current">{{ num }}</span>
+                    <span>｜</span>
+                {% elif num == 1 or num == page_obj.paginator.num_pages %}
+                    <a href="?page={{ num }}">{{ num }}</a>
+                    <span>｜</span>
+                {% elif page_obj.number|add:"-2" <= num and num <= page_obj.number|add:"2" %}
+                    <a href="?page={{ num }}">{{ num }}</a>
+                    <span>｜</span>
+                {% elif num == page_obj.number|add:"-3" or num == page_obj.number|add:"3" %}
+                    <span>......</span>
+                {% endif %}
+            {% endfor %}
+            {% if page_obj.has_next %}<a href="?page={{ page_obj.next_page_number }}">下一頁 »</a>{% endif %}
+            {% comment %} <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            {% if page_obj.has_previous %}
+                <a href="?page=1">第一頁</a>
+                <a href="?page={{ page_obj.previous_page_number }}">« 上一頁</a>
+                <span>｜</span>
+            {% endif %}
+            {% for num in page_obj.paginator.page_range %}
+                {% if num == 1 or num == page_obj.paginator.num_pages or num >= page_obj.number|add:"-2" and num <= page_obj.number|add:"2" %}
+                    {% if num == page_obj.number %}
+                        <span class="current">{{ num }}</span>
+                        <span>｜</span>
+                    {% else %}
+                        <a href="?page={{ num }}">{{ num }}</a>
+                        <span>｜</span>
+                    {% endif %}
+                {% elif num == page_obj.number|add:"-3" or num == page_obj.number|add:"3" %}
+                    <span>......</span>
+                {% endif %}
+            {% endfor %}
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">下一頁 »</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">最後一頁</a>
+            {% endif %} {% endcomment %}
+        </span>
+    </div>
+    {% comment %} <script>console.log("{{ page_obj|escapejs }}");</script> {% endcomment %}
+{% endblock B %}

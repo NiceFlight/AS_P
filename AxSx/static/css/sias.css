@@ -1,0 +1,24 @@
+body {
+    background: url('/static/img/background.jpg')no-repeat;
+    background-size: cover;
+}
+
+section {
+    display: flex;
+    justify-content: center;
+}
+
+h1,
+ul {
+    color: white;
+}
+
+#map {
+    height: 85%;
+    width: 95%;
+    margin: auto;
+}
+
+.grayscale {
+    filter: grayscale(100%);
+}

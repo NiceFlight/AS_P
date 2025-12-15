@@ -1,0 +1,59 @@
+{% extends "layout.html" %}
+{% load static %}
+{% block A %}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}" />
+  <link rel="stylesheet" href="{% static 'css/adddata.css' %}" />
+  <title>{{ name }}</title>
+{% endblock A %}
+{% block B %}
+  <section>
+    <div class="form-box">
+      <form action="" method="post">
+        {% csrf_token %}
+        <div class="selection">
+          <select id="selectedCity" name="selectedCity" required>
+            <option value="">請選擇縣市</option>
+          </select>
+          <select id="selectedTown" name="selectedTown" required disabled>
+            <option value="">請選擇鄉鎮</option>
+          </select>
+        </div>
+        <br />
+        <div class="inputbox">
+          <input type="text" name="cname" required />
+          <label for="cname">名稱（必填）</label>
+        </div>
+        <div class="inputbox">
+          <input type="text" name="ctype" required />
+          <label for="ctype">文化類型</label>
+        </div>
+        <div class="inputbox">
+          <input type="text" name="des" required />
+          <label for="des">簡述（200 字以內）</label>
+        </div>
+        <div class="inputbox">
+          <input type="text" name="year" required />
+          <label for="year">發現年份（西元）</label>
+        </div>
+        <div class="inputbox">
+          <input type="text" name="lat" required />
+          <label for="lat">緯度</label>
+        </div>
+        <div class="inputbox">
+          <input type="text" name="lng" required />
+          <label for="lng">經度</label>
+        </div>
+        <div class="inputbox">
+          <input type="text" name="note" required />
+          <label for="note">備註</label>
+        </div>
+        <br />
+        <button>新增</button>
+      </form>
+    </div>
+  </section>
+  <script type="module" src="{% static 'js/cityTown.js' %}" defer></script>
+  <script>{% if message %}alert("{{ message }}"){% endif %}</script>
+{% endblock B %}
