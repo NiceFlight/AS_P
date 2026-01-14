@@ -16,12 +16,12 @@ class AirportsData(models.Model):
     lat = models.DecimalField(db_column="Lat", max_digits=15, decimal_places=10, blank=True, null=True)  # Field name made lowercase.
     lng = models.DecimalField(db_column="Lng", max_digits=15, decimal_places=10, blank=True, null=True)  # Field name made lowercase.
     max_runway_ft_field = models.CharField(
-        db_column="Max_Runway(ft)", max_length=45, blank=True, null=True
+        db_column="Max_Runway_ft", max_length=45, blank=True, null=True
     )  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
     continent = models.CharField(db_column="Continent", max_length=45, blank=True, null=True)  # Field name made lowercase.
     hub = models.IntegerField(db_column="Hub", blank=True, null=True)  # Field name made lowercase.
     base = models.IntegerField(db_column="Base", blank=True, null=True)  # Field name made lowercase.
-    destination = models.IntegerField(db_column="Destination", blank=True, null=True)  # Field name made lowercase.
+    destination = models.IntegerField(db_column="Des", blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
         managed = False
@@ -36,28 +36,28 @@ class PlaneData(models.Model):
     model = models.CharField(max_length=45, blank=True, null=True)
     price = models.IntegerField(blank=True, null=True)
     range_km_field = models.IntegerField(
-        db_column="range(km)", blank=True, null=True
+        db_column="range_km", blank=True, null=True
     )  # Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
     speed_kph_field = models.IntegerField(
-        db_column="speed(kph)", blank=True, null=True
+        db_column="speed_kph", blank=True, null=True
     )  # Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
     passengers = models.IntegerField(blank=True, null=True)
     co2_cost_lb_per_km_field = models.IntegerField(
-        db_column="co2_cost(lb_per_km)", blank=True, null=True
+        db_column="co2_cost_lb_per_km", blank=True, null=True
     )  # Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
     runway_required_ft_field = models.IntegerField(
-        db_column="runway_required(ft)", blank=True, null=True
+        db_column="runway_required_ft", blank=True, null=True
     )  # Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
-    a_check_price = models.IntegerField(db_column="a-check_price", blank=True, null=True)  # Field renamed to remove unsuitable characters.
+    a_check_price = models.IntegerField(db_column="a_check_price", blank=True, null=True)  # Field renamed to remove unsuitable characters.
     main_check_hours_field = models.IntegerField(
-        db_column="main_check(hours)", blank=True, null=True
+        db_column="main_check_hours", blank=True, null=True
     )  # Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
     co2_emission_kg_pax_km_field = models.DecimalField(
-        db_column="co2_emission(kg/pax/km)", max_digits=5, decimal_places=3, blank=True, null=True
+        db_column="co2_emission_kg_pax_km", max_digits=5, decimal_places=3, blank=True, null=True
     )  # Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
     delivery_time = models.TimeField(blank=True, null=True)
     service_ciling_ft_field = models.IntegerField(
-        db_column="service_ciling(ft)", blank=True, null=True
+        db_column="service_ciling_ft", blank=True, null=True
     )  # Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
 
     class Meta:
